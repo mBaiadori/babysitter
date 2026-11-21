@@ -1,5 +1,10 @@
-# Hybrid Agentic Systems
-## Overview
+---
+title: "Hybrid Agentic Systems"
+tags: []
+approvers: []
+---
+
+# Overview
 
 This guide is a conceptual framework for building hybrid agentic systems where:
 
@@ -183,25 +188,29 @@ Interleaving means **nesting**: within a single top-level run, the orchestrator 
 2. Orchestrator may call symbolic tasks to prepare or constrain the work (compute allowed scope, run analyzers, preflight checks)
 3. Harness runs a bounded work session: explores, edits, runs commands/tools, iterates
 4. During the session, the harness calls symbolic tools to stay aligned with rules:
-   - “Is this change allowed?”
-   - “What checks are required in this stage?”
-   - “Does this evidence satisfy the gate?”
+  - “Is this change allowed?”
+  - “What checks are required in this stage?”
+  - “Does this evidence satisfy the gate?”
 5. Harness returns **artifact + evidence + status**
 6. Orchestrator validates gates (often via symbolic tasks) and decides: **advance, retry, fork, or request approval**
 
 ### 4 common nesting patterns
 
-- **Orchestrator → Harness (bounded work)**  
-  Orchestrator delegates adaptive work (implement, fix, refactor) within a strict envelope.
+- **Orchestrator → Harness (bounded work)**
 
-- **Harness → Symbolic Tool (rule consultation)**  
-  Harness consults deterministic logic instead of guessing policies and constraints.
+Orchestrator delegates adaptive work (implement, fix, refactor) within a strict envelope.
 
-- **Harness → Symbolic Tool → Harness (work → check → repair)**  
-  Harness checks gates/policies mid-session and immediately performs targeted repairs.
+- **Harness → Symbolic Tool (rule consultation)**
 
-- **Orchestrator → Symbolic Task → Orchestrator (evidence verification)**  
-  Orchestrator invokes validators/analyzers to produce pass/fail evidence before proceeding.
+Harness consults deterministic logic instead of guessing policies and constraints.
+
+- **Harness → Symbolic Tool → Harness (work → check → repair)**
+
+Harness checks gates/policies mid-session and immediately performs targeted repairs.
+
+- **Orchestrator → Symbolic Task → Orchestrator (evidence verification)**
+
+Orchestrator invokes validators/analyzers to produce pass/fail evidence before proceeding.
 
 ### Rules that keep nesting safe and understandable
 
@@ -411,27 +420,32 @@ The orchestrator uses gate results to decide whether to advance, retry, request 
 
 ### 1) **Everything is agentic**
 
-Symptom: unpredictable behavior, hard to debug, inconsistent safety.  
+Symptom: unpredictable behavior, hard to debug, inconsistent safety.
+
 Fix: move gates, budgets, and invariants into symbolic orchestration.
 
 ### 2) **Everything is symbolic**
 
-Symptom: brittle workflows, poor adaptation, high maintenance.  
+Symptom: brittle workflows, poor adaptation, high maintenance.
+
 Fix: delegate fuzzy decisions and exploration to the harness.
 
 ### 3) **Hidden state**
 
-Symptom: the harness “remembers” things the system never logged.  
+Symptom: the harness “remembers” things the system never logged.
+
 Fix: journal what matters. The system’s truth must be reconstructible.
 
 ### 4) **Wide tool surface**
 
-Symptom: tool confusion, increased risk, unpredictable results.  
+Symptom: tool confusion, increased risk, unpredictable results.
+
 Fix: keep tools small, stable, and well-described.
 
 ### 5) **No explicit evidence requirements**
 
-Symptom: “done” claims without proof.  
+Symptom: “done” claims without proof.
+
 Fix: define completion as **artifact + evidence**, enforced by gates.
 
 ---
